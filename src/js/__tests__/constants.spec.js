@@ -11,8 +11,7 @@ describe('상수관리 테스트', () => {
     expect(CONSTS.LANGS.length > 1).toBeTruthy();
   });
 
-  test('FORMAT_INTERFACE 확인', () => {
-    expect(CONSTS.FORMAT.EN.hasOwnProperty('DIGITS')).toBeTruthy();
-    expect(CONSTS.FORMAT.KO.TXTS.LONG.MONTHS[0]).toBe('1월');
+  test('FORMAT 하위 프로퍼티 확인', () => {
+    expect(CONSTS.FORMAT.KO.LONG.MONTHS[1]).toBe('2월');
   });
 });

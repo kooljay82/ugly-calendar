@@ -1,4 +1,5 @@
 import * as Ugly from '../index';
+import * as CONSTS from '../constants';
 
 describe('index.js 테스트', () => {
   test('sanity 테스트 실행', () => {
@@ -33,21 +34,21 @@ describe('index.js 테스트', () => {
     expect(checkElement(testElement2)).toBe(true);
   });
 
-  test('format을 확인한다. lang과 format 프로퍼티가 있어야 함', () => {
+  test('format을 확인한다. month와 day 프로퍼티가 있어야 함', () => {
     const testFormat = { };
     expect(typeof testFormat).toBe('object');
-    expect(testFormat.hasOwnProperty('lang')).toBe(false);
-    testFormat.lang = ''
-    expect(testFormat.hasOwnProperty('lang')).toBe(true);
-    expect(testFormat.hasOwnProperty('type')).toBe(false);
-    testFormat.type = 'digits';
-    expect(testFormat.hasOwnProperty('type')).toBe(true);
+    expect(testFormat.hasOwnProperty('month')).toBe(false);
+    testFormat.month = ['en', 'long'];
+    expect(testFormat.hasOwnProperty('month')).toBe(true);
+    expect(testFormat.hasOwnProperty('day')).toBe(false);
+    testFormat.day = ['ko', 'long'];
+    expect(testFormat.hasOwnProperty('day')).toBe(true);
   });
 
   test('format 기능 검사', () => {
     function checkForamt (format) {
       // eslint의 에러를 회피하기 위하여 prototype을 통해 접근한다.
-      if (typeof format !== 'object' || !(Object.prototype.hasOwnProperty.call(format, 'lang') && Object.prototype.hasOwnProperty.call(format, 'type'))) {
+      if (typeof format !== 'object' || !(Object.prototype.hasOwnProperty.call(format, 'month') && Object.prototype.hasOwnProperty.call(format, 'day'))) {
         return false;
       }
       return true;
@@ -57,8 +58,55 @@ describe('index.js 테스트', () => {
     expect(checkForamt(testFormat1)).toBe(false);
 
     const testFormat2 = {
-      lang: 'en',
-      type: ['txts', '']
+      month: [],
+      day: []
     }
-  })
+    expect(checkForamt(testFormat2)).toBe(true);
+  });
+
+  test('dateFormat 조합 구현', () => {
+    const testFormat = {
+      month: ['ko', 'long'],
+      day: ['ko', 'short']      
+    }
+
+    function setFormat (format) {
+      let monthsArr;
+      let daysArr;
+
+      for (let prop in format) {
+        let lang = '';
+        let type = '';
+        format[prop].forEach((v, i) => {
+          if (i === 0) {
+            lang = v.toUpperCase();
+          } else {
+            type = v.toUpperCase();
+          }
+        });
+        switch (prop) {
+          case 'month':
+            monthsArr = CONSTS.FORMAT[lang][type]['MONTHS'];
+            break;
+          case 'day':
+            daysArr = CONSTS.FORMAT[lang][type]['DAYS'];
+        }
+      }
+
+      return {
+        monthsArr,
+        daysArr
+      }
+    }
+
+    const result = setFormat(testFormat);
+    const monthsArr = result.monthsArr;
+    const daysArr = result.daysArr;
+
+    expect(monthsArr.length).toBe(12);
+    expect(monthsArr[3]).toBe('4월');
+
+    expect(daysArr.length).toBe(7);
+    expect(daysArr[5]).toBe('금');
+  });
 })

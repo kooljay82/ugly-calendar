@@ -12,21 +12,50 @@
 import '../css/style.styl';
 import * as CONSTS from './constants';
 
-const language = CONSTS.LANGS[0];
-
 function ready(element, format, days = []) {
   if (arguments.length < 2) {
-    throw new Error('매개변수가 전달되지 않았습니다.');
+    throw new Error('필수 매개변수가 전달되지 않았습니다.');
   }
 
   if (typeof element !== 'object' || !(element instanceof HTMLElement)) {
     throw new Error('첫번째 매개변수가 형식에 맞지 않습니다.');
   }
 
-  if (typeof format !== 'object' || !(Object.prototype.hasOwnProperty.call(format, 'lang') && Object.prototype.hasOwnProperty.call(format, 'type'))) {
+  if (typeof format !== 'object' || !(Object.prototype.hasOwnProperty.call(format, 'month') && Object.prototype.hasOwnProperty.call(format, 'day'))) {
     throw new Error('두번째 매개변수가 형식에 맞지 않습니다.');
   }
 
+  // 함수 안에서 사용할 플래그 및 변수를 선언한다.
+  let hasPlan = false; /* 기본값으로 빈 false 할당 */
+  let monthsArr = []; /* 기본값으로 빈 배열 할당 */
+  let daysArr = []; /* 기본값으로 빈 배열 할당 */
+
+  Object.keys(format).forEach((prop) => {
+    let lang = '';
+    let type = '';
+    format[prop].forEach((v, i) => {
+      if (i === 0) {
+        lang = v.toUpperCase();
+      } else {
+        type = v.toUpperCase();
+      }
+    });
+    switch (prop) {
+      case 'month':
+        monthsArr = CONSTS.FORMAT[lang][type].MONTHS;
+        break;
+      default:
+        daysArr = CONSTS.FORMAT[lang][type].DAYS;
+        break;
+    }
+  });
+
+  if (days.length > 0) {
+    hasPlan = true;
+  }
+
+  // eslint 에러로 인해 임시로 값 반환
+  return { hasPlan, monthsArr, daysArr };
 }
 // eslint-disable-next-line
 export { ready };
