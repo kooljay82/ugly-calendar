@@ -4,11 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UGLY CALENDAR</title>
+  <style>
+    /* 템플릿 래퍼의 기본 셋팅은 이곳에서 담당한다. */
+    /* cascading을 감안하여 모든 요소의 리셋을 하지 않는다. */
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    #target {
+      width: 100%;
+      max-width: 750px;
+      height: 100vh;
+      background: #eee;
+      padding: 0;
+      margin: 0 auto;
+    }
+  </style>
 </head>
 <body>
   <div id="target"></div>
   <script>
-    console.log(Ugly);
+    const element = document.getElementById('target');
+    const format = {
+      month: ['ko', 'long'],
+      day: ['ko', 'short']
+    }
+    Ugly.ready(element, format);
   </script>
 </body>
 </html>

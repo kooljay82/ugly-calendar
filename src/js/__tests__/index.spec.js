@@ -109,4 +109,17 @@ describe('index.js 테스트', () => {
     expect(daysArr.length).toBe(7);
     expect(daysArr[5]).toBe('금');
   });
+
+  test('range 유효성 체크', () => {
+    function checkRange (range) {
+      if (typeof range !== 'number' || (range <= 0 || range > 24)) {
+        return false;
+      }
+      return true;
+    }
+
+    expect(checkRange(0)).toBe(false);
+    expect(checkRange(10)).toBe(true);
+    expect(checkRange(25)).toBe(false);
+  });
 })

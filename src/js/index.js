@@ -12,7 +12,19 @@
 import '../css/style.styl';
 import * as CONSTS from './constants';
 
-function ready(element, format, days = []) {
+function createTemplate(element) {
+  const container = document.createElement('div');
+  container.setAttribute('id', 'container');
+  element.appendChild(container);
+  const today = new Date();
+  const year = today.getUTCFullYear();
+  const month = today.getUTCMonth();
+  const day = today.getUTCDay();
+  // eslint 에러 우회
+  return { year, month, day };
+}
+
+function ready(element, format = { month: ['ko', 'long'], day: ['ko', 'long'] }, range = 12, markedDays = []) {
   if (arguments.length < 2) {
     throw new Error('필수 매개변수가 전달되지 않았습니다.');
   }
@@ -25,10 +37,14 @@ function ready(element, format, days = []) {
     throw new Error('두번째 매개변수가 형식에 맞지 않습니다.');
   }
 
+  if (typeof range !== 'number' || (range <= 0 || range > 24)) {
+    throw new Error('세번째 매개변수가 형식에 맞지 않습니다.');
+  }
+
   // 함수 안에서 사용할 플래그 및 변수를 선언한다.
-  let hasPlan = false; /* 기본값으로 빈 false 할당 */
   let monthsArr = []; /* 기본값으로 빈 배열 할당 */
   let daysArr = []; /* 기본값으로 빈 배열 할당 */
+  let hasMarked = false; /* 기본값으로 빈 false 할당 */
 
   Object.keys(format).forEach((prop) => {
     let lang = '';
@@ -50,12 +66,20 @@ function ready(element, format, days = []) {
     }
   });
 
-  if (days.length > 0) {
-    hasPlan = true;
+  if (markedDays.length > 0) {
+    hasMarked = true;
   }
 
+  createTemplate(element);
+
   // eslint 에러로 인해 임시로 값 반환
-  return { hasPlan, monthsArr, daysArr };
+  return {
+    hasMarked,
+    monthsArr,
+    daysArr,
+    range,
+  };
 }
+
 // eslint-disable-next-line
 export { ready };

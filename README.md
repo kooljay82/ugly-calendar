@@ -7,7 +7,20 @@ Will be updated soon
 
 ## How To Use
 
-Will be updated soon
+```
+// Shortly after download this repo, you have to install packages.
+npm run install
+
+// When you wanna develop or see example.
+npm run start
+
+// When you wanna add some tests and excute your test code.
+npm run test
+
+// When you custmoize some codebase and use it directly.
+npm run build
+
+```
 
 ## Add Your Schedule Or Holidays
 
