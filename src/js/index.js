@@ -12,18 +12,6 @@
 import '../css/style.styl';
 import * as CONSTS from './constants';
 
-function createTemplate(element) {
-  const container = document.createElement('div');
-  container.setAttribute('id', 'container');
-  element.appendChild(container);
-  const today = new Date();
-  const year = today.getUTCFullYear();
-  const month = today.getUTCMonth();
-  const day = today.getUTCDay();
-  // eslint 에러 우회
-  return { year, month, day };
-}
-
 function ready(element, format = { month: ['ko', 'long'], day: ['ko', 'long'] }, range = 12, markedDays = []) {
   if (arguments.length < 2) {
     throw new Error('필수 매개변수가 전달되지 않았습니다.');
@@ -70,14 +58,70 @@ function ready(element, format = { month: ['ko', 'long'], day: ['ko', 'long'] },
     hasMarked = true;
   }
 
-  createTemplate(element);
+  // 레이아웃과 관련한 요소 등은 프로토타입에서 최소한의 테스트 코드만 작성
+  // 리팩토링 및 코드정리 시 기능별 스플릿팅 후 정리
 
-  // eslint 에러로 인해 임시로 값 반환
+  const container = document.createElement('div');
+  container.setAttribute('id', 'ugly-container');
+  element.appendChild(container);
+
+  const TODAY = new Date();
+
+  let currentYear = TODAY.getFullYear();
+  let currentMonth = TODAY.getMonth();
+
+  for (let i = 0; i < range; i += 1) {
+    const table = document.createElement('div');
+    const daysOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const idxFirstDayOfDate = new Date(currentYear, currentMonth).getDay();
+    const rows = Math.ceil((daysOfMonth + idxFirstDayOfDate) / 7);
+
+    table.setAttribute('class', 'container-table');
+    // 월의 텍스트와 요일 표시
+    // 해당 템플릿은 default로 사용 추후 추가
+    table.innerHTML = `
+      <div class="table-header">
+        <h2>${monthsArr[currentMonth]}</h2>
+        <small>${currentYear}</small>
+      </div>
+      <table class="table-body">
+        <tr class="days-of-${currentYear}-${currentMonth}">
+          <th>${daysArr[0]}</th>
+          <th>${daysArr[1]}</th>
+          <th>${daysArr[2]}</th>
+          <th>${daysArr[3]}</th>
+          <th>${daysArr[4]}</th>
+          <th>${daysArr[5]}</th>
+          <th>${daysArr[6]}</th>
+        </tr>
+      </table>
+    `;
+    container.appendChild(table);
+    for (let j = 0; j < rows; j += 1) {
+      const targetRow = document.querySelector(`.days-of-${currentYear}-${currentMonth}`);
+      const row = targetRow.parentNode.insertRow(-1);
+      for (let k = 0; k < daysArr.length; k += 1) {
+        const number = j * 7 + k - idxFirstDayOfDate + 1;
+        let textNode;
+        if (number >= 1 && number <= daysOfMonth) {
+          textNode = document.createTextNode(number);
+        } else {
+          textNode = document.createTextNode('');
+        }
+        const cell = row.insertCell();
+        cell.appendChild(textNode);
+      }
+    }
+    currentMonth += 1;
+    if (currentMonth >= 12) {
+      currentMonth = 0;
+      currentYear += 1;
+    }
+  }
+
+  // // eslint 에러로 인해 임시로 값 반환
   return {
     hasMarked,
-    monthsArr,
-    daysArr,
-    range,
   };
 }
 
