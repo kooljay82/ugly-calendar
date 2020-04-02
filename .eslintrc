@@ -4,5 +4,9 @@
   "env": {
     "browser": true,
     "node": true
+  },
+  "rules": {
+    "import/prefer-default-export": "off",
+    "no-plusplus": "off"
   }
 }

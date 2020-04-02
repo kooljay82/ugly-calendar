@@ -11,8 +11,9 @@
 // 추가 스타일시트 필요시 .css 혹은 .styl 확장자 파일을 css 디렉토리에 위치하고 순서에 맞게 import
 import '../css/style.styl';
 import * as CONSTS from './constants';
+import { generateDefault } from './templates';
 
-function ready(element, format = { month: ['ko', 'long'], day: ['ko', 'long'] }, range = 12, markedDays = []) {
+function ready(element, format = { month: ['ko', 'long'], day: ['ko', 'long'] }, range = 12, markedDays = [], template = 'default') {
   if (arguments.length < 2) {
     throw new Error('필수 매개변수가 전달되지 않았습니다.');
   }
@@ -75,32 +76,24 @@ function ready(element, format = { month: ['ko', 'long'], day: ['ko', 'long'] },
     const daysOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
     const idxFirstDayOfDate = new Date(currentYear, currentMonth).getDay();
     const rows = Math.ceil((daysOfMonth + idxFirstDayOfDate) / 7);
+    let templateFn;
+
+    switch (template) {
+      case 'default':
+        templateFn = generateDefault;
+        break;
+      default:
+        templateFn = generateDefault;
+        break;
+    }
 
     table.setAttribute('class', 'container-table');
-    // 월의 텍스트와 요일 표시
-    // 해당 템플릿은 default로 사용 추후 추가
-    table.innerHTML = `
-      <div class="table-header">
-        <h2>${monthsArr[currentMonth]}</h2>
-        <small>${currentYear}</small>
-      </div>
-      <table class="table-body">
-        <tr class="days-of-${currentYear}-${currentMonth}">
-          <th>${daysArr[0]}</th>
-          <th>${daysArr[1]}</th>
-          <th>${daysArr[2]}</th>
-          <th>${daysArr[3]}</th>
-          <th>${daysArr[4]}</th>
-          <th>${daysArr[5]}</th>
-          <th>${daysArr[6]}</th>
-        </tr>
-      </table>
-    `;
+    table.innerHTML = templateFn(currentYear, currentMonth, monthsArr, daysArr);
     container.appendChild(table);
-    for (let j = 0; j < rows; j += 1) {
+    for (let j = 0; j < rows; j++) {
       const targetRow = document.querySelector(`.days-of-${currentYear}-${currentMonth}`);
       const row = targetRow.parentNode.insertRow(-1);
-      for (let k = 0; k < daysArr.length; k += 1) {
+      for (let k = 0; k < daysArr.length; k++) {
         const number = j * 7 + k - idxFirstDayOfDate + 1;
         let textNode;
         if (number >= 1 && number <= daysOfMonth) {
@@ -112,18 +105,17 @@ function ready(element, format = { month: ['ko', 'long'], day: ['ko', 'long'] },
         cell.appendChild(textNode);
       }
     }
-    currentMonth += 1;
+    currentMonth++;
     if (currentMonth >= 12) {
       currentMonth = 0;
-      currentYear += 1;
+      currentYear++;
     }
   }
 
-  // // eslint 에러로 인해 임시로 값 반환
+  // eslint 에러로 인해 임시로 값 반환
   return {
     hasMarked,
   };
 }
 
-// eslint-disable-next-line
 export { ready };
