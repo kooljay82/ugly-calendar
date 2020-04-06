@@ -99,13 +99,23 @@ function ready(element, format = { year: ['ko', 'year'], month: ['ko', 'long'], 
       const row = targetRow.parentNode.insertRow(-1);
       for (let k = 0; k < daysArr.length; k++) {
         const number = j * 7 + k - idxFirstDayOfDate + 1;
+        const cell = row.insertCell();
         let textNode;
         if (number >= 1 && number <= daysOfMonth) {
           textNode = document.createTextNode(number);
+          if (i === 0) {
+            const todayObj = new Date(`${TODAY.getFullYear()}-${TODAY.getMonth() + 1}-${TODAY.getDate()}`);
+            const currentDayObj = new Date(currentYear, currentMonth, number);
+            if (todayObj.getTime() > currentDayObj.getTime()) {
+              cell.classList.add('disable');
+            }
+            if (todayObj.getTime() === currentDayObj.getTime()) {
+              cell.classList.add('today');
+            }
+          }
         } else {
           textNode = document.createTextNode('');
         }
-        const cell = row.insertCell();
         cell.appendChild(textNode);
       }
     }
