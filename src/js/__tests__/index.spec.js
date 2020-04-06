@@ -66,11 +66,13 @@ describe('index.js 테스트', () => {
 
   test('dateFormat 조합 구현', () => {
     const testFormat = {
+      year: ['en', 'year'],
       month: ['ko', 'long'],
       day: ['ko', 'short']      
     }
 
     function setFormat (format) {
+      let year;
       let monthsArr;
       let daysArr;
 
@@ -85,6 +87,9 @@ describe('index.js 테스트', () => {
           }
         });
         switch (prop) {
+          case 'year':
+            year = CONSTS.FORMAT[lang] && CONSTS.FORMAT[lang][type]
+            break;
           case 'month':
             monthsArr = CONSTS.FORMAT[lang][type]['MONTHS'];
             break;
@@ -94,20 +99,28 @@ describe('index.js 테스트', () => {
       }
 
       return {
+        year,
         monthsArr,
         daysArr
       }
     }
 
     const result = setFormat(testFormat);
+    const year = result.year;
     const monthsArr = result.monthsArr;
     const daysArr = result.daysArr;
 
+    expect(year).toBe('Year');
     expect(monthsArr.length).toBe(12);
     expect(monthsArr[3]).toBe('4월');
 
     expect(daysArr.length).toBe(7);
     expect(daysArr[5]).toBe('금');
+
+    testFormat.year = [];
+    const otherResult = setFormat(testFormat);
+    const otherYear = otherResult.year;
+    expect(otherYear).toBe(undefined);
   });
 
   test('range 유효성 체크', () => {

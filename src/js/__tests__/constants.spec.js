@@ -12,6 +12,7 @@ describe('상수관리 테스트', () => {
   });
 
   test('FORMAT 하위 프로퍼티 확인', () => {
+    expect(CONSTS.FORMAT.EN.YEAR).toBe('Year');
     expect(CONSTS.FORMAT.KO.LONG.MONTHS[1]).toBe('2월');
   });
 });

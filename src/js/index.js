@@ -13,8 +13,8 @@ import '../css/style.styl';
 import * as CONSTS from './constants';
 import { generateDefault } from './templates';
 
-function ready(element, format = { month: ['ko', 'long'], day: ['ko', 'long'] }, range = 12, markedDays = [], template = 'default') {
-  if (arguments.length < 2) {
+function ready(element, format = { year: ['ko', 'year'], month: ['ko', 'long'], day: ['ko', 'short'] }, range = 12, markedDays = [], template = 'default') {
+  if (arguments.length < 1) {
     throw new Error('필수 매개변수가 전달되지 않았습니다.');
   }
 
@@ -22,7 +22,7 @@ function ready(element, format = { month: ['ko', 'long'], day: ['ko', 'long'] },
     throw new Error('첫번째 매개변수가 형식에 맞지 않습니다.');
   }
 
-  if (typeof format !== 'object' || !(Object.prototype.hasOwnProperty.call(format, 'month') && Object.prototype.hasOwnProperty.call(format, 'day'))) {
+  if (typeof format !== 'object' || !(Object.prototype.hasOwnProperty.call(format, 'year') && Object.prototype.hasOwnProperty.call(format, 'month') && Object.prototype.hasOwnProperty.call(format, 'day'))) {
     throw new Error('두번째 매개변수가 형식에 맞지 않습니다.');
   }
 
@@ -31,6 +31,7 @@ function ready(element, format = { month: ['ko', 'long'], day: ['ko', 'long'] },
   }
 
   // 함수 안에서 사용할 플래그 및 변수를 선언한다.
+  let yearNotation = ''; /* 기본값으로 빈 문자열 할당 */
   let monthsArr = []; /* 기본값으로 빈 배열 할당 */
   let daysArr = []; /* 기본값으로 빈 배열 할당 */
   let hasMarked = false; /* 기본값으로 빈 false 할당 */
@@ -46,6 +47,9 @@ function ready(element, format = { month: ['ko', 'long'], day: ['ko', 'long'] },
       }
     });
     switch (prop) {
+      case 'year':
+        yearNotation = CONSTS.FORMAT[lang] && CONSTS.FORMAT[lang][type];
+        break;
       case 'month':
         monthsArr = CONSTS.FORMAT[lang][type].MONTHS;
         break;
@@ -88,7 +92,7 @@ function ready(element, format = { month: ['ko', 'long'], day: ['ko', 'long'] },
     }
 
     table.setAttribute('class', 'container-table');
-    table.innerHTML = templateFn(currentYear, currentMonth, monthsArr, daysArr);
+    table.innerHTML = templateFn(yearNotation, currentYear, currentMonth, monthsArr, daysArr);
     container.appendChild(table);
     for (let j = 0; j < rows; j++) {
       const targetRow = document.querySelector(`.days-of-${currentYear}-${currentMonth}`);
