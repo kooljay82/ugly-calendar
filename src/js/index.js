@@ -13,7 +13,16 @@ import '../css/style.styl';
 import * as CONSTS from './constants';
 import { generateDefault } from './templates';
 
-function ready(element, format = { year: ['ko', 'year'], month: ['ko', 'long'], day: ['ko', 'short'] }, range = 12, markedDays = [], template = 'default') {
+// 체크한 결과값을 등록할 부분
+const DATA = {};
+let isChecked = false;
+
+function defaultCallbackFn() {
+  // eslint-disable-next-line
+  console.log('날짜가 선택되었습니다.', DATA.START_DATE, DATA.END_DATE);
+}
+
+function ready(element, format = { year: ['ko', 'year'], month: ['ko', 'long'], day: ['ko', 'short'] }, range = 12, markedDays = [], template = 'default', callbackFn = defaultCallbackFn) {
   if (arguments.length < 1) {
     throw new Error('필수 매개변수가 전달되지 않았습니다.');
   }
@@ -73,12 +82,12 @@ function ready(element, format = { year: ['ko', 'year'], month: ['ko', 'long'], 
   const TODAY = new Date();
 
   let currentYear = TODAY.getFullYear();
-  let currentMonth = TODAY.getMonth();
+  let currentMonthIdx = TODAY.getMonth();
 
   for (let i = 0; i < range; i += 1) {
     const table = document.createElement('div');
-    const daysOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    const idxFirstDayOfDate = new Date(currentYear, currentMonth).getDay();
+    const daysOfMonth = new Date(currentYear, currentMonthIdx + 1, 0).getDate();
+    const idxFirstDayOfDate = new Date(currentYear, currentMonthIdx).getDay();
     const rows = Math.ceil((daysOfMonth + idxFirstDayOfDate) / 7);
     let templateFn;
 
@@ -92,10 +101,10 @@ function ready(element, format = { year: ['ko', 'year'], month: ['ko', 'long'], 
     }
 
     table.setAttribute('class', 'container-table');
-    table.innerHTML = templateFn(yearNotation, currentYear, currentMonth, monthsArr, daysArr);
+    table.innerHTML = templateFn(yearNotation, currentYear, currentMonthIdx, monthsArr, daysArr);
     container.appendChild(table);
     for (let j = 0; j < rows; j++) {
-      const targetRow = document.querySelector(`.days-of-${currentYear}-${currentMonth}`);
+      const targetRow = document.querySelector(`.days-of-${currentYear}-${currentMonthIdx + 1}`);
       const row = targetRow.parentNode.insertRow(-1);
       for (let k = 0; k < daysArr.length; k++) {
         const number = j * 7 + k - idxFirstDayOfDate + 1;
@@ -105,7 +114,7 @@ function ready(element, format = { year: ['ko', 'year'], month: ['ko', 'long'], 
           textNode = document.createTextNode(number);
           if (i === 0) {
             const todayObj = new Date(`${TODAY.getFullYear()}-${TODAY.getMonth() + 1}-${TODAY.getDate()}`);
-            const currentDayObj = new Date(currentYear, currentMonth, number);
+            const currentDayObj = new Date(currentYear, currentMonthIdx, number);
             if (todayObj.getTime() > currentDayObj.getTime()) {
               cell.classList.add('disable');
             }
@@ -113,18 +122,59 @@ function ready(element, format = { year: ['ko', 'year'], month: ['ko', 'long'], 
               cell.classList.add('today');
             }
           }
+          cell.dataset.year = currentYear;
+          cell.dataset.month = currentMonthIdx < 9 ? `0${currentMonthIdx + 1}` : currentMonthIdx + 1;
+          cell.dataset.date = number < 10 ? `0${number}` : number;
         } else {
           textNode = document.createTextNode('');
         }
         cell.appendChild(textNode);
       }
     }
-    currentMonth++;
-    if (currentMonth >= 12) {
-      currentMonth = 0;
+    currentMonthIdx++;
+    if (currentMonthIdx >= 12) {
+      currentMonthIdx = 0;
       currentYear++;
     }
   }
+
+  Object.defineProperties(DATA, {
+    START_DATE: {
+      get() {
+        return this.$start;
+      },
+      set(val) {
+        this.$start = val;
+      },
+    },
+    END_DATE: {
+      get() {
+        return this.$end;
+      },
+      set(val) {
+        this.$end = val;
+        if (val.length !== 0) {
+          callbackFn();
+        }
+      },
+    },
+  });
+
+  container.addEventListener('click', (e) => {
+    if (e.target.tagName.toLowerCase() === 'td' && !(e.target.classList.contains('disable')) && 'year' in e.target.dataset) {
+      const data = e.target.dataset;
+      if (!isChecked) {
+        DATA.START_DATE = [data.year, data.month, data.date];
+        DATA.END_DATE = [];
+        isChecked = !isChecked;
+      } else {
+        DATA.END_DATE = [data.year, data.month, data.date];
+        isChecked = !isChecked;
+      }
+      return true;
+    }
+    return false;
+  });
 
   // eslint 에러로 인해 임시로 값 반환
   return {
@@ -132,4 +182,4 @@ function ready(element, format = { year: ['ko', 'year'], month: ['ko', 'long'], 
   };
 }
 
-export { ready };
+export { DATA, ready };
