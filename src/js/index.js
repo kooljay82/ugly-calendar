@@ -15,14 +15,31 @@ import { generateDefault } from './templates';
 
 // 체크한 결과값을 등록할 부분
 const DATA = {};
-let isChecked = false;
+
+const defaultFormat = {
+  year: ['ko', 'year'], month: ['ko', 'long'], day: ['ko', 'short'],
+};
+
+const defaultRange = 12;
+
+const defaultMarkedDays = [];
+
+const defaultTemplate = 'default';
 
 function defaultCallbackFn() {
   // eslint-disable-next-line
   console.log('날짜가 선택되었습니다.', DATA.START_DATE, DATA.END_DATE);
 }
 
-function ready(element, format = { year: ['ko', 'year'], month: ['ko', 'long'], day: ['ko', 'short'] }, range = 12, markedDays = [], template = 'default', callbackFn = defaultCallbackFn) {
+function ready(
+  /* 매개변수의 기본값을 설정해 놓고 사용 */
+  element,
+  format = defaultFormat,
+  range = defaultRange,
+  markedDays = defaultMarkedDays,
+  template = defaultTemplate,
+  callbackFn = defaultCallbackFn,
+) {
   if (arguments.length < 1) {
     throw new Error('필수 매개변수가 전달되지 않았습니다.');
   }
@@ -160,16 +177,59 @@ function ready(element, format = { year: ['ko', 'year'], month: ['ko', 'long'], 
     },
   });
 
+  let isChecked = false;
+
   container.addEventListener('click', (e) => {
     if (e.target.tagName.toLowerCase() === 'td' && !(e.target.classList.contains('disable')) && 'year' in e.target.dataset) {
       const data = e.target.dataset;
       if (!isChecked) {
+        const endDate = document.querySelector('.end-date');
+        if (endDate != null) {
+          const prevStart = document.querySelector('.start-date');
+          prevStart.classList.remove('start-date');
+          endDate.classList.remove('end-date');
+          const prevSelctedDates = document.querySelectorAll('.selected-dates');
+          prevSelctedDates.forEach((el) => {
+            el.classList.remove('selected-dates');
+          });
+        }
+        const startDate = e.target;
+        startDate.classList.add('start-date');
         DATA.START_DATE = [data.year, data.month, data.date];
         DATA.END_DATE = [];
         isChecked = !isChecked;
       } else {
+        let passedNum = 0;
+        Object.keys(data).forEach((v) => {
+          // 모던 브라우저에서 객체 프로퍼티의 순서를 보장하지만 예상치 못한 동작을 제어하기 위해 if 문을 연결
+          if (v === 'year') {
+            passedNum = data[v] >= DATA.START_DATE[0] ? passedNum += 1 : passedNum;
+          } else if (v === 'month') {
+            passedNum = data[v] >= DATA.START_DATE[1] ? passedNum += 1 : passedNum;
+          } else if (v === 'date') {
+            passedNum = data[v] > DATA.START_DATE[2] ? passedNum += 1 : passedNum;
+          }
+        });
+        if (passedNum !== 3) return false;
+        const endDate = e.target;
+        endDate.classList.add('end-date');
         DATA.END_DATE = [data.year, data.month, data.date];
+        const endDateTime = new Date(...DATA.END_DATE).getTime();
+        const startDateTime = new Date(...DATA.START_DATE).getTime();
+        const days = (endDateTime - startDateTime) / (1000 * 3600 * 24);
         isChecked = !isChecked;
+
+        let selectedYear = DATA.START_DATE[0];
+        let selectedMonth = DATA.START_DATE[1];
+        let selectedDate = DATA.START_DATE[2];
+        for (let i = 1; i <= days; i++) {
+          const el = document.querySelector(`[data-year="${selectedYear}"][data-month="${selectedMonth}"][data-date="${selectedDate}"]`);
+          el.classList.add('selected-dates');
+          const prevDate = new Date(selectedYear, selectedMonth - 1, selectedDate);
+          selectedYear = String(prevDate.getFullYear());
+          selectedMonth = prevDate.getMonth() + 1 > 9 ? String(prevDate.getMonth() + 1) : `0${prevDate.getMonth() + 1}`;
+          selectedDate = prevDate.getDate() + 1 > 9 ? String(prevDate.getDate() + 1) : `0${prevDate.getDate() + 1}`;
+        }
       }
       return true;
     }
@@ -182,4 +242,16 @@ function ready(element, format = { year: ['ko', 'year'], month: ['ko', 'long'], 
   };
 }
 
-export { DATA, ready };
+function init(element, {
+  format = defaultFormat,
+  range = defaultRange,
+  markedDays = defaultMarkedDays,
+  template = defaultTemplate,
+  callbackFn = defaultCallbackFn,
+}) {
+  return this.ready(element, format, range, markedDays, template, callbackFn);
+}
+
+export {
+  DATA, ready, init,
+};
