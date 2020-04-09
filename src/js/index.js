@@ -199,23 +199,12 @@ function ready(
         DATA.END_DATE = [];
         isChecked = !isChecked;
       } else {
-        let passedNum = 0;
-        Object.keys(data).forEach((v) => {
-          // 모던 브라우저에서 객체 프로퍼티의 순서를 보장하지만 예상치 못한 동작을 제어하기 위해 if 문을 연결
-          if (v === 'year') {
-            passedNum = data[v] >= DATA.START_DATE[0] ? passedNum += 1 : passedNum;
-          } else if (v === 'month') {
-            passedNum = data[v] >= DATA.START_DATE[1] ? passedNum += 1 : passedNum;
-          } else if (v === 'date') {
-            passedNum = data[v] > DATA.START_DATE[2] ? passedNum += 1 : passedNum;
-          }
-        });
-        if (passedNum !== 3) return false;
+        const startDateTime = new Date(...DATA.START_DATE).getTime();
+        const endDateTime = new Date(data.year, data.month, data.date);
+        if (endDateTime - startDateTime <= 0) return false;
         const endDate = e.target;
         endDate.classList.add('end-date');
         DATA.END_DATE = [data.year, data.month, data.date];
-        const endDateTime = new Date(...DATA.END_DATE).getTime();
-        const startDateTime = new Date(...DATA.START_DATE).getTime();
         const days = (endDateTime - startDateTime) / (1000 * 3600 * 24);
         isChecked = !isChecked;
 
@@ -225,10 +214,14 @@ function ready(
         for (let i = 1; i <= days; i++) {
           const el = document.querySelector(`[data-year="${selectedYear}"][data-month="${selectedMonth}"][data-date="${selectedDate}"]`);
           el.classList.add('selected-dates');
-          const prevDate = new Date(selectedYear, selectedMonth - 1, selectedDate);
-          selectedYear = String(prevDate.getFullYear());
-          selectedMonth = prevDate.getMonth() + 1 > 9 ? String(prevDate.getMonth() + 1) : `0${prevDate.getMonth() + 1}`;
-          selectedDate = prevDate.getDate() + 1 > 9 ? String(prevDate.getDate() + 1) : `0${prevDate.getDate() + 1}`;
+          const nextDate = new Date(
+            selectedYear,
+            Number(selectedMonth) - 1,
+            Number(selectedDate) + 1,
+          );
+          selectedYear = String(nextDate.getFullYear());
+          selectedMonth = nextDate.getMonth() + 1 > 9 ? String(nextDate.getMonth() + 1) : `0${nextDate.getMonth() + 1}`;
+          selectedDate = nextDate.getDate() > 9 ? String(nextDate.getDate()) : `0${nextDate.getDate()}`;
         }
       }
       return true;
@@ -249,7 +242,7 @@ function init(element, {
   template = defaultTemplate,
   callbackFn = defaultCallbackFn,
 }) {
-  return this.ready(element, format, range, markedDays, template, callbackFn);
+  return ready(element, format, range, markedDays, template, callbackFn);
 }
 
 export {
