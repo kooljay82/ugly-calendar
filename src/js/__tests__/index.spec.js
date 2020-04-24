@@ -1,3 +1,5 @@
+import { JSDOM } from 'jsdom';
+
 import * as Ugly from '../index';
 import * as CONSTS from '../constants';
 
@@ -135,4 +137,19 @@ describe('index.js 테스트', () => {
     expect(checkRange(10)).toBe(true);
     expect(checkRange(25)).toBe(false);
   });
+
+  // test('JSDOM 테스트', () => {
+  //   const dom = new JSDOM(`
+  //     <body>
+  //       <div id="test-target">
+  //         Hello Test Div!!!
+  //       </div>
+  //     </body>
+  //   `);
+
+  //   const element = dom.window.document.getElementById('test-target');
+    
+  //   console.log(element);
+  //   Ugly.init(element);
+  // });
 })

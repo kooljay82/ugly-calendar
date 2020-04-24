@@ -6,7 +6,7 @@ export function generateDefault(yearNota, year, monthIdx, mArr, dArr) {
   let yearString;
   if (yearNota != null) {
     if (yearNota === '년') {
-      yearString = `${year} ${yearNota}`;
+      yearString = `${year}${yearNota}`;
     } else {
       yearString = `${yearNota} ${year}`;
     }
@@ -15,8 +15,10 @@ export function generateDefault(yearNota, year, monthIdx, mArr, dArr) {
   }
   const html = `
     <div class="table-header">
-      <h2>${mArr[monthIdx]}</h2>
-      <small>${yearString}</small>
+      <h2 class="header-title">
+        <span class="title-month">${mArr[monthIdx]}</span>
+        <span class="title-year">${yearString}</span>
+      </h2>
     </div>
     <table class="table-body">
       <tr class="days-of-${year}-${monthIdx + 1}">

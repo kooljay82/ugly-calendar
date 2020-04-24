@@ -3,7 +3,7 @@
  * 캘린더를 네임스페이스 패턴을 이용하여 제작
  * 1. element 전달, 이를 통하여 타겟을 설정하여 해당 element 안에 달력을 노출
  * 2. 언어와 포맷 전달
- * 3. 등록한 이벤트와 리턴받을 값,포맷을 전달 / ex) return 받을 형식 -> [yyyy.mm.dd, yyyy.mm.dd]
+ * 3. 등록한 이벤트와 포맷 등 전달
  * 4. 특정 일자의 배열 전달 / 이는 달력에 마킹될 일자들
  */
 
@@ -17,7 +17,9 @@ import { generateDefault } from './templates';
 const DATA = {};
 
 const defaultFormat = {
-  year: ['ko', 'year'], month: ['ko', 'long'], day: ['ko', 'short'],
+  year: ['ko', 'year'],
+  month: ['ko', 'long'],
+  day: ['ko', 'short'],
 };
 
 const defaultRange = 12;
@@ -95,6 +97,8 @@ function ready(
   const container = document.createElement('div');
   container.setAttribute('id', 'ugly-container');
   element.appendChild(container);
+  const width = container.offsetWidth > 720 ? 720 : container.offsetWidth;
+  const colWidth = Math.floor(width / 7);
 
   const TODAY = new Date();
 
@@ -123,9 +127,11 @@ function ready(
     for (let j = 0; j < rows; j++) {
       const targetRow = document.querySelector(`.days-of-${currentYear}-${currentMonthIdx + 1}`);
       const row = targetRow.parentNode.insertRow(-1);
+      row.style.cssText = `width: ${colWidth * 7}px; height: ${colWidth}px;`;
       for (let k = 0; k < daysArr.length; k++) {
         const number = j * 7 + k - idxFirstDayOfDate + 1;
         const cell = row.insertCell();
+        cell.style.cssText = `width: ${colWidth}px; height: ${colWidth}px;`;
         let textNode;
         if (number >= 1 && number <= daysOfMonth) {
           textNode = document.createTextNode(number);
@@ -199,19 +205,22 @@ function ready(
         DATA.END_DATE = [];
         isChecked = !isChecked;
       } else {
-        const startDateTime = new Date(...DATA.START_DATE).getTime();
-        const endDateTime = new Date(data.year, data.month, data.date);
+        const startDateTime = new Date(
+          DATA.START_DATE[0],
+          DATA.START_DATE[1] - 1,
+          DATA.START_DATE[2],
+        ).getTime();
+        const endDateTime = new Date(data.year, data.month - 1, data.date).getTime();
         if (endDateTime - startDateTime <= 0) return false;
         const endDate = e.target;
         endDate.classList.add('end-date');
         DATA.END_DATE = [data.year, data.month, data.date];
         const days = (endDateTime - startDateTime) / (1000 * 3600 * 24);
         isChecked = !isChecked;
-
         let selectedYear = DATA.START_DATE[0];
         let selectedMonth = DATA.START_DATE[1];
         let selectedDate = DATA.START_DATE[2];
-        for (let i = 1; i <= days; i++) {
+        for (let i = 0; i <= days; i++) {
           const el = document.querySelector(`[data-year="${selectedYear}"][data-month="${selectedMonth}"][data-date="${selectedDate}"]`);
           el.classList.add('selected-dates');
           const nextDate = new Date(
@@ -241,7 +250,7 @@ function init(element, {
   markedDays = defaultMarkedDays,
   template = defaultTemplate,
   callbackFn = defaultCallbackFn,
-}) {
+} = { }) {
   return ready(element, format, range, markedDays, template, callbackFn);
 }
 
