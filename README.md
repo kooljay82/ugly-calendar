@@ -106,4 +106,4 @@ Will be updated soon
 
 ## License
 
-Use Only Inside of Wemakeprice.inc
+MIT
