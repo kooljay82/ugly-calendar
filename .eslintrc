@@ -3,10 +3,12 @@
   "extends": ["airbnb/base"],
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "jest": true
   },
   "rules": {
     "import/prefer-default-export": "off",
     "no-plusplus": "off"
-  }
+  },
+  "plugins": ["jest"]
 }

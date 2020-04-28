@@ -1,5 +1,3 @@
-import { JSDOM } from 'jsdom';
-
 import * as Ugly from '../index';
 import * as CONSTS from '../constants';
 
@@ -10,7 +8,7 @@ describe('index.js 테스트', () => {
 
   test('매개변수 테스트', () => {
     expect(() => {
-      Ugly.ready()
+      Ugly.ready();
     }).toThrowError();
   });
 
@@ -22,16 +20,14 @@ describe('index.js 테스트', () => {
   });
 
   test('첫번째 매개변수가 html element가 아닐 경운 false를 반환한다.', () => {
-    function checkElement (element) {
+    function checkElement(element) {
       if (typeof element !== 'object' || !(element instanceof HTMLElement)) {
         return false;
       }
       return true;
     }
-    
     const testElement1 = { };
     expect(checkElement(testElement1)).toBe(false);
-
     const testElement2 = document.createElement('div');
     expect(checkElement(testElement2)).toBe(true);
   });
@@ -39,30 +35,28 @@ describe('index.js 테스트', () => {
   test('format을 확인한다. month와 day 프로퍼티가 있어야 함', () => {
     const testFormat = { };
     expect(typeof testFormat).toBe('object');
-    expect(testFormat.hasOwnProperty('month')).toBe(false);
+    expect(Object.prototype.hasOwnProperty.call(testFormat, 'month')).toBe(false);
     testFormat.month = ['en', 'long'];
-    expect(testFormat.hasOwnProperty('month')).toBe(true);
-    expect(testFormat.hasOwnProperty('day')).toBe(false);
+    expect(Object.prototype.hasOwnProperty.call(testFormat, 'month')).toBe(true);
+    expect(Object.prototype.hasOwnProperty.call(testFormat, 'day')).toBe(false);
     testFormat.day = ['ko', 'long'];
-    expect(testFormat.hasOwnProperty('day')).toBe(true);
+    expect(Object.prototype.hasOwnProperty.call(testFormat, 'day')).toBe(true);
   });
 
   test('format 기능 검사', () => {
-    function checkForamt (format) {
+    function checkForamt(format) {
       // eslint의 에러를 회피하기 위하여 prototype을 통해 접근한다.
       if (typeof format !== 'object' || !(Object.prototype.hasOwnProperty.call(format, 'month') && Object.prototype.hasOwnProperty.call(format, 'day'))) {
         return false;
       }
       return true;
     }
-
     const testFormat1 = { };
     expect(checkForamt(testFormat1)).toBe(false);
-
     const testFormat2 = {
       month: [],
-      day: []
-    }
+      day: [],
+    };
     expect(checkForamt(testFormat2)).toBe(true);
   });
 
@@ -70,15 +64,13 @@ describe('index.js 테스트', () => {
     const testFormat = {
       year: ['en', 'year'],
       month: ['ko', 'long'],
-      day: ['ko', 'short']      
-    }
-
-    function setFormat (format) {
+      day: ['ko', 'short'],
+    };
+    function setFormat(format) {
       let year;
       let monthsArr;
       let daysArr;
-
-      for (let prop in format) {
+      Object.keys(format).forEach((prop) => {
         let lang = '';
         let type = '';
         format[prop].forEach((v, i) => {
@@ -90,35 +82,29 @@ describe('index.js 테스트', () => {
         });
         switch (prop) {
           case 'year':
-            year = CONSTS.FORMAT[lang] && CONSTS.FORMAT[lang][type]
+            year = CONSTS.FORMAT[lang] && CONSTS.FORMAT[lang][type];
             break;
           case 'month':
-            monthsArr = CONSTS.FORMAT[lang][type]['MONTHS'];
+            monthsArr = CONSTS.FORMAT[lang][type].MONTHS;
             break;
-          case 'day':
-            daysArr = CONSTS.FORMAT[lang][type]['DAYS'];
+          default:
+            daysArr = CONSTS.FORMAT[lang][type].DAYS;
+            break;
         }
-      }
-
+      });
       return {
         year,
         monthsArr,
-        daysArr
-      }
+        daysArr,
+      };
     }
-
     const result = setFormat(testFormat);
-    const year = result.year;
-    const monthsArr = result.monthsArr;
-    const daysArr = result.daysArr;
-
+    const { year, monthsArr, daysArr } = result;
     expect(year).toBe('Year');
     expect(monthsArr.length).toBe(12);
     expect(monthsArr[3]).toBe('4월');
-
     expect(daysArr.length).toBe(7);
     expect(daysArr[5]).toBe('금');
-
     testFormat.year = [];
     const otherResult = setFormat(testFormat);
     const otherYear = otherResult.year;
@@ -126,30 +112,14 @@ describe('index.js 테스트', () => {
   });
 
   test('range 유효성 체크', () => {
-    function checkRange (range) {
+    function checkRange(range) {
       if (typeof range !== 'number' || (range <= 0 || range > 24)) {
         return false;
       }
       return true;
     }
-
     expect(checkRange(0)).toBe(false);
     expect(checkRange(10)).toBe(true);
     expect(checkRange(25)).toBe(false);
   });
-
-  // test('JSDOM 테스트', () => {
-  //   const dom = new JSDOM(`
-  //     <body>
-  //       <div id="test-target">
-  //         Hello Test Div!!!
-  //       </div>
-  //     </body>
-  //   `);
-
-  //   const element = dom.window.document.getElementById('test-target');
-    
-  //   console.log(element);
-  //   Ugly.init(element);
-  // });
-})
+});
