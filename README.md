@@ -2,9 +2,9 @@
 
 ## Why??
 
-There are so many good and beautiful libraries of datepicker out there. But some of them are just made for specific framework or import some big library to use datepicker. So I decide to make datepicker in JS. It might be not easy and beautiful. But It will be powerful. (I hope...)
+There are so many good and beautiful libraries of 'daterangepicker' out there. But some of them are just made for specific frameworks or import some big libraries to use 'daterangepicker'. So I decide to make 'daterangepicker' with JS. It might be not easy and beautiful. But It will be powerful. (That's my hope...)
 
-I hope it can be 'dev-kit' and 'library' both. It's up to you! If you have to edit lots of things, you can implement this codebase, or you can use files inside 'lib' directory.
+I hope it can be 'dev-kit' and 'library' both. It's up to you! If you have to edit lots of things, you can implement this codebase, or you can use files inside 'lib' directory directly (2020.04.29 / currently not supported).
 
 ## Example
 
@@ -109,7 +109,7 @@ You have to name it 'callbackFn'. * It's required!!!
 
 ## Consist Of...
 
-Will be updated soon
+**Will be updated soon*
 
 ## License
 
