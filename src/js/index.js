@@ -122,6 +122,7 @@ function ready(
     }
 
     table.setAttribute('class', 'container-table');
+    table.style.cssText = `width: ${colWidth * 7}px;`;
     table.innerHTML = templateFn(yearNotation, currentYear, currentMonthIdx, monthsArr, daysArr);
     container.appendChild(table);
     for (let j = 0; j < rows; j++) {
