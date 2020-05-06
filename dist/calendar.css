@@ -1,0 +1,125 @@
+#ugly-container * {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  padding: 0;
+  margin: 0;
+}
+#ugly-container {
+  width: 100%;
+  height: calc(100% - 40px);
+  font-size: 1em;
+  padding: 20px 0;
+}
+#ugly-container .table-header {
+  width: 100%;
+  height: 60px;
+}
+#ugly-container .table-header .header-title {
+  height: 60px;
+  line-height: 60px;
+}
+#ugly-container .table-header .header-title .title-month {
+  display: block;
+  float: left;
+  width: auto;
+  height: 60px;
+  padding: 0 10px;
+  line-height: 60px;
+  font-size: 1.2em;
+}
+#ugly-container .table-header .header-title .title-year {
+  display: block;
+  float: left;
+  width: auto;
+  height: 60px;
+  padding: 0 10px;
+  line-height: 60px;
+  font-weight: normal;
+  font-size: 0.6em;
+}
+#ugly-container .table-body {
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: none;
+  width: 100%;
+  text-align: center;
+  vertical-align: middle;
+  overflow: hidden;
+  font-size: 0.9em;
+}
+#ugly-container .table-body tr {
+  border: none;
+}
+#ugly-container .table-body th {
+  padding: 10px 0;
+}
+#ugly-container .table-body th,
+#ugly-container .table-body td {
+  position: relative;
+  z-index: 1;
+}
+#ugly-container .table-body th:nth-child(1),
+#ugly-container .table-body th:nth-child(7),
+#ugly-container .table-body td:nth-child(1),
+#ugly-container .table-body td:nth-child(7) {
+  color: #ff4500;
+}
+#ugly-container .table-body .disable {
+  color: #222;
+  opacity: 0.1;
+}
+#ugly-container .table-body .today:after {
+  content: '';
+  display: block;
+  position: absolute;
+  z-index: -1;
+  top: calc(50% - 10px);
+  left: calc(50% + 10px);
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #f00;
+}
+#ugly-container .table-body .start-date,
+#ugly-container .table-body .end-date,
+#ugly-container .table-body .selected-dates {
+  color: #fff !important;
+}
+#ugly-container .table-body .start-date:after,
+#ugly-container .table-body .end-date:after {
+  content: '';
+  display: block;
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border-radius: 50%;
+  background: #222;
+}
+#ugly-container .table-body .selected-dates {
+  border-color: #f00;
+}
+#ugly-container .table-body .selected-dates:after {
+  content: '';
+  display: block;
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  background: #222;
+}
+#ugly-container .table-body .start-date:after {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+#ugly-container .table-body .end-date:after {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+
+/*# sourceMappingURL=calendar.css.map*/

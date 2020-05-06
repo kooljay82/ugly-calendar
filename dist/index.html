@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>UGLY CALENDAR</title><style>/* 템플릿 래퍼의 기본 셋팅은 이곳에서 담당한다. */
+    /* cascading을 감안하여 모든 요소의 리셋을 하지 않는다. */
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    #target {
+      width: calc(100% - 30px);
+      max-width: 720px;
+      height: 100%;
+      background: #eee;
+      padding: 0 15px;
+      margin: 0 auto;
+      overflow: auto;
+    }</style><link href="calendar.css" rel="stylesheet"><script src="calendar.js"></script></head><body><div id="target"></div><script>const element = document.getElementById('target');
+    function callbackFn() {
+      console.log('실행할 기능을 등록한다. 반환 받을 데이터는 Ugly.DATA를 통해서 접근한다.', Ugly.DATA.START_DATE, Ugly.DATA.END_DATE);
+    }
+    Ugly.init(element, { callbackFn });</script></body></html>
