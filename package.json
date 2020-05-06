@@ -1,6 +1,6 @@
 {
   "name": "@kooljay82/ugly-calendar",
-  "version": "0.0.0.0",
+  "version": "0.0.0",
   "description": "ugly calendar",
   "main": "./dist/calendar.js",
   "scripts": {
