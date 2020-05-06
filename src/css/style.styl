@@ -2,12 +2,14 @@
 // 리셋 스타일을 가져오면 사용자의 기본 스타일과 충돌하여 예상치 못한 스타일 오류를 일으킬 수 있으므로 모든 요소의 스타일을 직접 리셋한다.
 
 #ugly-container *
+    font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
     padding 0
     margin 0
 
 #ugly-container
   width 100%
   height calc(100% - 40px)
+  font-size 1.0em
   padding 20px 0
   overflow auto
 
@@ -87,8 +89,8 @@
       z-index -1
       top 0
       left 0
-      width calc(100% + 1px)
-      height calc(100% + 1px)
+      width 100%
+      height 100%
       border-radius 50%
       background #222
 
@@ -99,8 +101,8 @@
       z-index -1
       top 0
       left 0
-      width calc(100% + 1px)
-      height calc(100% + 1px)
+      width 100%
+      height 100%
       background #222
     
     .start-date:after
@@ -110,4 +112,4 @@
     .end-date:after
       border-top-left-radius 0
       border-bottom-left-radius 0
-      left -1px
+      

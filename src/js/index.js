@@ -136,7 +136,17 @@ function ready(
         if (number >= 1 && number <= daysOfMonth) {
           textNode = document.createTextNode(number);
           if (i === 0) {
-            const todayObj = new Date(`${TODAY.getFullYear()}-${TODAY.getMonth() + 1}-${TODAY.getDate()}`);
+            // iOS에서 지원되는 형식(ISO-8601)으로 바꿔서 오늘 날짜를 특정한다.
+            const dateStr = `${TODAY.getFullYear()}-${TODAY.getMonth() + 1}-${TODAY.getDate()} 00:00:00`;
+            const splitStr = dateStr.split(/[- :]/);
+            const todayObj = new Date(
+              splitStr[0],
+              splitStr[1] - 1,
+              splitStr[2],
+              splitStr[3],
+              splitStr[4],
+              splitStr[5],
+            );
             const currentDayObj = new Date(currentYear, currentMonthIdx, number);
             if (todayObj.getTime() > currentDayObj.getTime()) {
               cell.classList.add('disable');

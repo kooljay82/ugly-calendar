@@ -7,7 +7,7 @@
     "test": "jest",
     "watch": "webpack -w",
     "build": "webpack --progress --mode=production",
-    "start": "webpack-dev-server --open",
+    "start": "webpack-dev-server --open --host 0.0.0.0",
     "lint": "./node_modules/.bin/eslint src"
   },
   "keywords": [
