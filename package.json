@@ -1,8 +1,8 @@
 {
-  "name": "ugly-calendar",
-  "version": "1.0.0",
+  "name": "@kooljay82/ugly-calendar",
+  "version": "0.0.0.0",
   "description": "ugly calendar",
-  "main": "index.js",
+  "main": "./dist/calendar.js",
   "scripts": {
     "test": "jest",
     "watch": "webpack -w",
