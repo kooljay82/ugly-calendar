@@ -16,6 +16,11 @@
     "schedule",
     "datepicker"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kooljay82/ugly-calendar.git"
+  },
+  "homepage": "https://github.com/kooljay82/ugly-calendar",
   "author": "kooljay82",
   "license": "ISC",
   "dependencies": {
