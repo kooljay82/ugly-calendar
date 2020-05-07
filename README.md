@@ -46,8 +46,8 @@ index.html
   <script>
     const element = document.getElementById('target');
     /* make your own callback function */
-    function callbackFn () {
-      console.log('실행할 기능을 등록한다. 반환 받을 데이터는 Ugly.DATA를 통해서 접근한다.', Ugly.DATA.START_DATE, Ugly.DATA.END_DATE);
+    function callbackFn() {
+      console.log('You have to add event that will trigger after you chose dates.', Ugly.DATA.START_DATE, Ugly.DATA.END_DATE);
     }
     Ugly.init(element, { callbackFn });
   </script>
@@ -56,6 +56,23 @@ index.html
 
 You can access START_DATE and END_DATE via Ugly.DATA
 *You have to name it 'callbackFn'. (It's required!!!)
+
+or framework such as Vue.js
+
+```
+import * as Ugly from '@kooljay82/ugly-calendar'
+import '@kooljay82/ugly-calendar/dist/calendar.css'
+export default {
+  beforeMount() {
+    this.$nextTick(() => {
+      function callbackFn() {
+        console.log('You have to add event that will trigger after you chose dates.', Ugly.DATA.START_DATE, Ugly.DATA.END_DATE);
+      }
+      Ugly.init(this.$refs['target'], { callbackFn });
+    });
+  }
+}
+```
 
 ## Option properties
 
@@ -67,6 +84,13 @@ You can access START_DATE and END_DATE via Ugly.DATA
 | markedDays | | | | * currently not supported |
 | template | | | | * currently not supported |
 | callbackFn | Function | no (but you have to)|console.log('You chose start and end dates.', DATA.START_DATE, DATA.END_DATE); | Event when you choose your start and end dates |
+
+```
+  // don't change names of properties!!!
+  // options except element are properties of object
+
+  Ugly.init(element, { format, range, markedDays, template, callbackFn });
+```
 
 ## Custom Style Guide
 
