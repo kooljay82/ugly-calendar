@@ -1,6 +1,6 @@
 {
   "name": "@kooljay82/ugly-calendar",
-  "version": "0.0.01",
+  "version": "0.0.2",
   "private": false,
   "description": "ugly calendar",
   "main": "./lib/calendar.js",
