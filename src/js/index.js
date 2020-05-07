@@ -17,9 +17,9 @@ import { generateDefault } from './templates';
 const DATA = {};
 
 const defaultFormat = {
-  year: ['ko', 'year'],
-  month: ['ko', 'long'],
-  day: ['ko', 'short'],
+  year: ['en', ''],
+  month: ['en', 'short'],
+  day: ['en', 'short'],
 };
 
 const defaultRange = 12;
@@ -30,7 +30,7 @@ const defaultTemplate = 'default';
 
 function defaultCallbackFn() {
   // eslint-disable-next-line
-  console.log('날짜가 선택되었습니다.', DATA.START_DATE, DATA.END_DATE);
+  console.log('You chose start and end dates.', DATA.START_DATE, DATA.END_DATE);
 }
 
 function ready(
@@ -266,5 +266,5 @@ function init(element, {
 }
 
 export {
-  DATA, ready, init,
+  DATA, init,
 };

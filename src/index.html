@@ -28,7 +28,7 @@
   <script>
     const element = document.getElementById('target');
     function callbackFn() {
-      console.log('실행할 기능을 등록한다. 반환 받을 데이터는 Ugly.DATA를 통해서 접근한다.', Ugly.DATA.START_DATE, Ugly.DATA.END_DATE);
+      console.log('You have to add event that will trigger after you chose dates.', Ugly.DATA.START_DATE, Ugly.DATA.END_DATE);
     }
     Ugly.init(element, { callbackFn });
   </script>

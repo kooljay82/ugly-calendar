@@ -1,10 +1,10 @@
-# UGLY CALENDAR
+# UGLY CALENDAR (mobile friendly / desktop is not considered)
 
 ## Why??
 
 There are so many good and beautiful libraries of 'daterangepicker' out there. But some of them are just made for specific frameworks or import some big libraries to use 'daterangepicker'. So I decide to make 'daterangepicker' with JS. It might be not easy and beautiful. But It will be powerful. (That's my hope...)
 
-I hope it can be 'dev-kit' and 'library' both. It's up to you! If you have to edit lots of things, you can implement this codebase, or you can use files inside 'lib' directory directly (2020.04.29 / currently not supported).
+I hope it can be 'dev-kit' and 'library' both. It's up to you! If you have to edit lots of things, you can implement this codebase, or you can use files inside 'lib' directory directly
 
 ## Example
 
@@ -18,7 +18,7 @@ https://codesandbox.io/s/github/kooljay82/ugly-calendar?file=/src/index.html
 
 ```
 // Shortly after download this repository, you have to install packages.
-npm run install
+npm install @kooljay82/ugly-calendar
 
 // When you wanna develop or see example.
 npm run start
@@ -27,6 +27,7 @@ npm run start
 npm run test
 
 // When you custmoize some codebase and use it directly.
+// Copy 'lib' directory into your 'some_directory'.
 npm run build
 
 ```
@@ -53,7 +54,19 @@ index.html
 </body>
 ```
 
-You have to name it 'callbackFn'. * It's required!!!
+You can access START_DATE and END_DATE via Ugly.DATA
+*You have to name it 'callbackFn'. (It's required!!!)
+
+## Option properties
+
+|otion|type|required?|default|description|
+|---|---|---|---|---|---|---|
+|element|HTMLElement|yes||Target element to append calendar|
+|format|Objejct|no|```{year: ['en', ''], month: ['en', 'short'], day: ['en', 'short'],};```| Choose language, long, short, lz_digits (leading-zero), digits format|
+|range|Number|no|12|Can edit range of months|
+|markedDays| | | |* currently not supported|
+|template| | | |* currently not supported|
+|callbackFn|Function|no (but you have to)|console.log('You chose start and end dates.', DATA.START_DATE, DATA.END_DATE);|Event when you choose your start and end dates|
 
 ## Custom Style Guide
 

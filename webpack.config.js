@@ -14,20 +14,18 @@ module.exports = {
   mode: 'development',
   entry: ['@babel/polyfill', path.resolve(__dirname, './src/js/index.js')],
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, './lib'),
     filename: 'calendar.js',
     library: 'Ugly',
     libraryTarget: 'umd'
   },
   devServer: {
-    contentBase: path.resolve(__dirname, './dist'),
+    contentBase: path.resolve(__dirname, './lib'),
     inline: true,
-    hot: true,
-    port: 8080
+    hot: true
   },
   devtool: 'source-map',
   plugins: [
-    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'calendar.css',
     }),

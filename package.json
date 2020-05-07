@@ -3,7 +3,7 @@
   "version": "0.0.01",
   "private": false,
   "description": "ugly calendar",
-  "main": "./dist/calendar.js",
+  "main": "./lib/calendar.js",
   "scripts": {
     "test": "jest",
     "watch": "webpack -w",
