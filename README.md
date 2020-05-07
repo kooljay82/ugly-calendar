@@ -60,7 +60,7 @@ You can access START_DATE and END_DATE via Ugly.DATA
 ## Option properties
 
 | option | type | required? | default | description |
-|---|---|---|---|---|---|---|
+|--------|------|-----------|---------|-------------|
 | element | HTMLElement | yes | none | Target element to append calendar |
 | format | Objejct | no | ```{year: ['en', ''], month: ['en', 'short'], day: ['en', 'short'],};``` | Choose language, long, short, lz_digits (leading-zero), digits format |
 | range | Number | no | 12 | Can edit range of months |
