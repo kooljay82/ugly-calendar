@@ -3,7 +3,7 @@ import * as CONSTS from '../constants';
 
 describe('index.js 테스트', () => {
   test('sanity 테스트 실행', () => {
-    expect(typeof Ugly.ready).toBe('function');
+    expect(typeof Ugly.init).toBe('function');
   });
 
   test('매개변수 테스트', () => {
