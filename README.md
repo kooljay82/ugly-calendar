@@ -41,8 +41,11 @@ npm run build
 index.html
 
 ```
+  <link href="some_path/calendar.css">
+</head>
 <body>
   <div id="target"></div>
+  <script src="some_path/calendar.js"></script>
   <script>
     const element = document.getElementById('target');
     /* make your own callback function */
@@ -60,8 +63,12 @@ You can access START_DATE and END_DATE via Ugly.DATA
 or framework such as Vue.js
 
 ```
-import * as Ugly from '@kooljay82/ugly-calendar'
-import '@kooljay82/ugly-calendar/lib/calendar.css'
+<template>
+  <div ref="target"></target>
+</template>
+<script>
+import * as Ugly from '@kooljay82/ugly-calendar';
+import '@kooljay82/ugly-calendar/lib/calendar.css';
 export default {
   beforeMount() {
     this.$nextTick(() => {
@@ -72,6 +79,7 @@ export default {
     });
   }
 }
+...
 ```
 
 ## Option properties
@@ -132,7 +140,7 @@ export default {
       * common colors and background colors *
 
     .start-date:after, .end-date:after
-      ...
+      * common style of start and end dates *
 
     .selected-dates:after
       * style of selected date *
