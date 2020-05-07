@@ -61,7 +61,7 @@ or framework such as Vue.js
 
 ```
 import * as Ugly from '@kooljay82/ugly-calendar'
-import '@kooljay82/ugly-calendar/dist/calendar.css'
+import '@kooljay82/ugly-calendar/lib/calendar.css'
 export default {
   beforeMount() {
     this.$nextTick(() => {
