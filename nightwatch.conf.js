@@ -17,18 +17,17 @@ module.exports = {
   chrome: {
     desiredCapabilities: {
       browserName: 'chrome',
+      javascriptEnabled: true,
       chromeOptions: {
-        w3c: false,
-        args: ['headless']
+        args: ['headless', 'no-sandbox']
       }
     }
   },
   test_settings: {
     default: {
       desiredCapabilities: {
-        browserName : "chrome",
+        browserName : 'chrome',
         chromeOptions: {
-          args : ["--no-sandbox"],
           w3c: false
         },
       }

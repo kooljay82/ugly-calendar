@@ -4,12 +4,15 @@
   "private": false,
   "description": "ugly calendar",
   "main": "./lib/calendar.js",
+  "bin": {
+    "runner": "node ./bin/runner.js"
+  },
   "scripts": {
     "test:unit": "jest",
-    "test:e2e": "node bin/test.js",
+    "test:e2e": "node ./bin/runner.js",
     "watch": "webpack -w",
     "build": "webpack --progress --mode=production",
-    "start": "webpack-dev-server --open",
+    "start": "webpack-dev-server",
     "lint": "./node_modules/.bin/eslint src"
   },
   "keywords": [

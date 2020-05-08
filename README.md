@@ -26,7 +26,7 @@ npm install
 npm run start
 
 // When you wanna add some tests and excute your test code.
-npm run test
+npm run test:unit / npm run test:e2e
 
 // When you custmoize some codebase and use it directly.
 // Copy 'lib' directory into your 'some_directory'.
@@ -89,7 +89,7 @@ export default {
 | option | type | required? | default | description |
 |--------|------|-----------|---------|-------------|
 | element | HTMLElement | yes | none | Target element to append calendar |
-| format | Objejct | no | ```{year: ['en', ''], month: ['en', 'short'], day: ['en', 'short'],};``` | Choose language, long, short, lz_digits (leading-zero), digits format |
+| format | Objejct | no | {year: ['en', ''], month: ['en', 'short'], day: ['en', 'short'],}; | Choose language, long, short, lz_digits (leading-zero), digits format |
 | range | Number | no | 12 | Can edit range of months |
 | markedDays | Array | no | | * currently not supported |
 | template | String | no | | * currently not supported |
