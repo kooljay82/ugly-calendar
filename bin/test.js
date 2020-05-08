@@ -8,6 +8,9 @@ const devServer = new webpackDevServer(webpack(config), { quiet: true });
 
 devServer.listen('8080', '0.0.0.0', () => {
   devServer.compiler.hooks.done.tap('stats', () => {
-    spawn('npx', ['nightwatch'], { stdio: 'inherit' });
+    const result = spawn.sync('npx', ['nightwatch'], { stdio: 'inherit' });
+    if (result.status === 0) {
+      devServer.close();
+    }
   });
 });
