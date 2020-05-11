@@ -157,6 +157,9 @@ function ready(
               splitStr[5],
             );
             const currentDayObj = new Date(currentYear, currentMonthIdx, number);
+            if (hasMarked) {
+              // 마킹해야할 날짜를 여기서 구분하여 disable을 추가하고 별도의 클래스를 입힌다.
+            }
             if (todayObj.getTime() > currentDayObj.getTime()) {
               cell.classList.add('disable');
             }
