@@ -1,4 +1,4 @@
 .DS_Store
 node_modules
-test_output
+test_output/
 selenium-server.log
