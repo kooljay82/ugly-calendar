@@ -5,9 +5,9 @@
 
   <testsuite name="first_journey"
     errors="0" failures="0" hostname="" id="" package="first_journey" skipped="0"
-    tests="1" time="0.3330" timestamp="">
+    tests="1" time="0.4340" timestamp="">
   
-    <testcase name="새니티 테스트" classname="first_journey" time="0.3330" assertions="2">
+    <testcase name="새니티 테스트" classname="first_journey" time="0.4340" assertions="2">
 
     
 
