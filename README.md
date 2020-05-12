@@ -92,7 +92,7 @@ export default {
 | format | Objejct | no | {year: ['en', ''], month: ['en', 'short'], day: ['en', 'short'],}; | Choose language, long, short, lz_digits (leading-zero), digits format |
 | range | Number | no | 12 | Can edit range of months |
 | markedDays | Array | no | | * currently not supported |
-| template | String | no | | * currently not supported |
+| template | String | no | 'default' | Add 'fix-header' |
 | callbackFn | Function | no (but you have to)|console.log('You chose start and end dates.', DATA.START_DATE, DATA.END_DATE); | Event when you choose your start and end dates |
 
 ```
