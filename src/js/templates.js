@@ -34,3 +34,25 @@ export function generateDefault(yearNota, year, monthIdx, mArr, dArr) {
   `;
   return html;
 }
+
+export function generateFixHeader(yearNota, year, monthIdx, mArr) {
+  let yearString;
+  if (yearNota != null) {
+    if (yearNota === '년') {
+      yearString = `${year}${yearNota}`;
+    } else {
+      yearString = `${yearNota} ${year}`;
+    }
+  } else {
+    yearString = year;
+  }
+  const html = `
+    <div class="table-header">
+      <h2 class="header-title">${yearString} ${mArr[monthIdx]}</h2>
+    </div>
+    <table class="table-body">
+      <tr class="days-of-${year}-${monthIdx + 1}"></tr>
+    </table>
+  `;
+  return html;
+}

@@ -26,10 +26,11 @@
   <div id="target"></div>
   <script>
     const element = document.getElementById('target');
+    const template = 'fix-header'
     function callbackFn() {
       console.log('You have to add event that will trigger after you chose dates.', Ugly.DATA.START_DATE, Ugly.DATA.END_DATE);
     }
-    Ugly.init(element, { callbackFn });
+    Ugly.init(element, { template, callbackFn });
   </script>
 </body>
 </html>

@@ -11,7 +11,7 @@
 // 추가 스타일시트 필요시 .css 혹은 .styl 확장자 파일을 css 디렉토리에 위치하고 순서에 맞게 import
 import '../css/style.styl';
 import * as CONSTS from './constants';
-import { generateDefault } from './templates';
+import { generateDefault, generateFixHeader } from './templates';
 
 // 체크한 결과값을 등록할 부분
 const DATA = {};
@@ -107,6 +107,26 @@ function ready(
   element.appendChild(container);
   const width = container.offsetWidth > 720 ? 720 : container.offsetWidth;
   const colWidth = Math.floor(width / 7);
+  if (template === 'fix-header') {
+    const fixHeader = document.createElement('div');
+    const olWidth = colWidth * 7;
+    const padding = (element.offsetWidth - olWidth) / 2;
+    fixHeader.setAttribute('class', 'fix-header-days');
+    fixHeader.style.cssText = `height: ${colWidth}px;`;
+    const htmlStr = `
+      <ol style="width: ${olWidth}px; height: ${colWidth}px; line-height: ${colWidth}px; padding: 0 ${padding}px;">
+        <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[0]}</li>
+        <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[1]}</li>
+        <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[2]}</li>
+        <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[3]}</li>
+        <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[4]}</li>
+        <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[5]}</li>
+        <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[6]}</li>
+      <ol>
+    `;
+    fixHeader.innerHTML = htmlStr;
+    container.appendChild(fixHeader);
+  }
 
   const TODAY = new Date();
 
@@ -123,6 +143,10 @@ function ready(
     switch (template) {
       case 'default':
         templateFn = generateDefault;
+        break;
+      case 'fix-header':
+        templateFn = generateFixHeader;
+        container.classList.add('fix-header');
         break;
       default:
         templateFn = generateDefault;
