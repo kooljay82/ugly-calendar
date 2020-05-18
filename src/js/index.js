@@ -11,21 +11,17 @@
 // 추가 스타일시트 필요시 .css 혹은 .styl 확장자 파일을 css 디렉토리에 위치하고 순서에 맞게 import
 import '../css/style.styl';
 import * as CONSTS from './constants';
-import { generateDefault, generateFixHeader } from './templates';
+import { generateDefault, generateFixHeader, generateFixHeaderTmpl } from './templates';
 
 // 체크한 결과값을 등록할 부분
 const DATA = {};
-
 const defaultFormat = {
   year: ['en', ''],
   month: ['en', 'short'],
   day: ['en', 'short'],
 };
-
 const defaultRange = 12;
-
 const defaultMarkedDays = [];
-
 const defaultTemplate = 'default';
 
 function defaultCallbackFn() {
@@ -103,33 +99,24 @@ function ready(
   // 리팩토링 및 코드정리 시 기능별 스플릿팅 후 정리
 
   const container = document.createElement('div');
+
   container.setAttribute('id', 'ugly-container');
   element.appendChild(container);
+
   const width = container.offsetWidth > 720 ? 720 : container.offsetWidth;
   const colWidth = Math.floor(width / 7);
+
   if (template === 'fix-header') {
     const fixHeader = document.createElement('div');
-    const olWidth = colWidth * 7;
-    const padding = (element.offsetWidth - olWidth) / 2;
+    const htmlStr = generateFixHeader(element, colWidth, daysArr);
+
+    fixHeader.innerHTML = htmlStr;
     fixHeader.setAttribute('class', 'fix-header-days');
     fixHeader.style.cssText = `height: ${colWidth}px;`;
-    const htmlStr = `
-      <ol style="width: ${olWidth}px; height: ${colWidth}px; line-height: ${colWidth}px; padding: 0 ${padding}px;">
-        <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[0]}</li>
-        <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[1]}</li>
-        <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[2]}</li>
-        <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[3]}</li>
-        <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[4]}</li>
-        <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[5]}</li>
-        <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[6]}</li>
-      <ol>
-    `;
-    fixHeader.innerHTML = htmlStr;
     container.appendChild(fixHeader);
   }
 
   const TODAY = new Date();
-
   let currentYear = TODAY.getFullYear();
   let currentMonthIdx = TODAY.getMonth();
 
@@ -145,7 +132,7 @@ function ready(
         templateFn = generateDefault;
         break;
       case 'fix-header':
-        templateFn = generateFixHeader;
+        templateFn = generateFixHeaderTmpl;
         container.classList.add('fix-header');
         break;
       default:
@@ -157,15 +144,21 @@ function ready(
     table.style.cssText = `width: ${colWidth * 7}px;`;
     table.innerHTML = templateFn(yearNotation, currentYear, currentMonthIdx, monthsArr, daysArr);
     container.appendChild(table);
+
     for (let j = 0; j < rows; j++) {
       const targetRow = document.querySelector(`.days-of-${currentYear}-${currentMonthIdx + 1}`);
       const row = targetRow.parentNode.insertRow(-1);
+
       row.style.cssText = `width: ${colWidth * 7}px; height: ${colWidth}px;`;
+
       for (let k = 0; k < daysArr.length; k++) {
         const number = j * 7 + k - idxFirstDayOfDate + 1;
         const cell = row.insertCell();
+
         cell.style.cssText = `width: ${colWidth}px; height: ${colWidth}px;`;
+
         let textNode;
+
         if (number >= 1 && number <= daysOfMonth) {
           textNode = document.createTextNode(number);
           if (i === 0) {
@@ -181,6 +174,7 @@ function ready(
               splitStr[5],
             );
             const currentDayObj = new Date(currentYear, currentMonthIdx, number);
+
             if (hasMarked) {
               // 마킹해야할 날짜를 여기서 구분하여 disable을 추가하고 별도의 클래스를 입힌다.
             }
@@ -208,6 +202,14 @@ function ready(
   }
 
   Object.defineProperties(DATA, {
+    DAYS: {
+      get() {
+        return this.$days;
+      },
+      set(val) {
+        this.$days = val;
+      },
+    },
     START_DATE: {
       get() {
         return this.$start;
@@ -234,18 +236,23 @@ function ready(
   container.addEventListener('click', (e) => {
     if (e.target.tagName.toLowerCase() === 'td' && !(e.target.classList.contains('disable')) && 'year' in e.target.dataset) {
       const data = e.target.dataset;
+
       if (!isChecked) {
         const endDate = document.querySelector('.end-date');
+
         if (endDate != null) {
           const prevStart = document.querySelector('.start-date');
           prevStart.classList.remove('start-date');
           endDate.classList.remove('end-date');
+
           const prevSelctedDates = document.querySelectorAll('.selected-dates');
           prevSelctedDates.forEach((el) => {
             el.classList.remove('selected-dates');
           });
         }
+
         const startDate = e.target;
+
         startDate.classList.add('start-date');
         DATA.START_DATE = [data.year, data.month, data.date];
         DATA.END_DATE = [];
@@ -257,15 +264,20 @@ function ready(
           DATA.START_DATE[2],
         ).getTime();
         const endDateTime = new Date(data.year, data.month - 1, data.date).getTime();
+
         if (endDateTime - startDateTime <= 0) return false;
+
         const endDate = e.target;
         endDate.classList.add('end-date');
         DATA.END_DATE = [data.year, data.month, data.date];
+
         const days = (endDateTime - startDateTime) / (1000 * 3600 * 24);
-        isChecked = !isChecked;
         let selectedYear = DATA.START_DATE[0];
         let selectedMonth = DATA.START_DATE[1];
         let selectedDate = DATA.START_DATE[2];
+
+        isChecked = !isChecked;
+
         for (let i = 0; i <= days; i++) {
           const el = document.querySelector(`[data-year="${selectedYear}"][data-month="${selectedMonth}"][data-date="${selectedDate}"]`);
           el.classList.add('selected-dates');

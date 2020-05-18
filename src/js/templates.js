@@ -35,7 +35,7 @@ export function generateDefault(yearNota, year, monthIdx, mArr, dArr) {
   return html;
 }
 
-export function generateFixHeader(yearNota, year, monthIdx, mArr) {
+export function generateFixHeaderTmpl(yearNota, year, monthIdx, mArr) {
   let yearString;
   if (yearNota != null) {
     if (yearNota === '년') {
@@ -48,11 +48,28 @@ export function generateFixHeader(yearNota, year, monthIdx, mArr) {
   }
   const html = `
     <div class="table-header">
-      <h2 class="header-title">${yearString} ${mArr[monthIdx]}</h2>
+      <h2 class="header-title">${yearString}.${mArr[monthIdx]}</h2>
     </div>
     <table class="table-body">
       <tr class="days-of-${year}-${monthIdx + 1}"></tr>
     </table>
+  `;
+  return html;
+}
+
+export function generateFixHeader(element, colWidth, daysArr) {
+  const olWidth = colWidth * 7;
+  const padding = (element.offsetWidth - olWidth) / 2;
+  const html = `
+    <ol style="width: ${olWidth}px; height: ${colWidth}px; line-height: ${colWidth}px; padding: 0 ${padding}px;">
+      <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[0]}</li>
+      <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[1]}</li>
+      <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[2]}</li>
+      <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[3]}</li>
+      <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[4]}</li>
+      <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[5]}</li>
+      <li style="width: ${colWidth}px; height: ${colWidth}px;">${daysArr[6]}</li>
+    <ol>
   `;
   return html;
 }
