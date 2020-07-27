@@ -24,19 +24,19 @@ const defaultRange = 12;
 const defaultMarkedDays = [];
 const defaultTemplate = 'default';
 
-function defaultCallbackFn() {
+function defaultCallbackFn () {
   // eslint-disable-next-line
   console.log('You chose start and end dates.', DATA.START_DATE, DATA.END_DATE);
 }
 
-function ready(
+function ready (
   /* 매개변수의 기본값을 설정해 놓고 사용 */
   element,
   format = defaultFormat,
   range = defaultRange,
   markedDays = defaultMarkedDays,
   template = defaultTemplate,
-  callbackFn = defaultCallbackFn,
+  callbackFn = defaultCallbackFn
 ) {
   if (arguments.length < 1) {
     throw new Error('Required parameter is not present');
@@ -171,7 +171,7 @@ function ready(
               splitStr[2],
               splitStr[3],
               splitStr[4],
-              splitStr[5],
+              splitStr[5]
             );
             const currentDayObj = new Date(currentYear, currentMonthIdx, number);
 
@@ -203,26 +203,26 @@ function ready(
 
   Object.defineProperties(DATA, {
     DAYS: {
-      get() {
+      get () {
         return this.$days;
       },
-      set(val) {
+      set (val) {
         this.$days = val;
       },
     },
     START_DATE: {
-      get() {
+      get () {
         return this.$start;
       },
-      set(val) {
+      set (val) {
         this.$start = val;
       },
     },
     END_DATE: {
-      get() {
+      get () {
         return this.$end;
       },
-      set(val) {
+      set (val) {
         this.$end = val;
         if (val.length !== 0) {
           callbackFn();
@@ -261,7 +261,7 @@ function ready(
         const startDateTime = new Date(
           DATA.START_DATE[0],
           DATA.START_DATE[1] - 1,
-          DATA.START_DATE[2],
+          DATA.START_DATE[2]
         ).getTime();
         const endDateTime = new Date(data.year, data.month - 1, data.date).getTime();
 
@@ -284,7 +284,7 @@ function ready(
           const nextDate = new Date(
             selectedYear,
             Number(selectedMonth) - 1,
-            Number(selectedDate) + 1,
+            Number(selectedDate) + 1
           );
           selectedYear = String(nextDate.getFullYear());
           selectedMonth = nextDate.getMonth() + 1 > 9 ? String(nextDate.getMonth() + 1) : `0${nextDate.getMonth() + 1}`;
@@ -297,7 +297,7 @@ function ready(
   });
 }
 
-function init(element, {
+function init (element, {
   format = defaultFormat,
   range = defaultRange,
   markedDays = defaultMarkedDays,
@@ -308,5 +308,5 @@ function init(element, {
 }
 
 export {
-  DATA, init,
+  DATA, init
 };

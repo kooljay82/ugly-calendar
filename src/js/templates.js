@@ -2,7 +2,7 @@
  * 템플릿을 반환하는 함수를 만들어 여러 템플릿을 선택하여 사용할 수 있도록 확장 가능하게 설계
  */
 
-export function generateDefault(yearNota, year, monthIdx, mArr, dArr) {
+export function generateDefault (yearNota, year, monthIdx, mArr, dArr) {
   let yearString;
   if (yearNota != null) {
     if (yearNota === '년') {
@@ -35,7 +35,7 @@ export function generateDefault(yearNota, year, monthIdx, mArr, dArr) {
   return html;
 }
 
-export function generateFixHeaderTmpl(yearNota, year, monthIdx, mArr) {
+export function generateFixHeaderTmpl (yearNota, year, monthIdx, mArr) {
   let yearString;
   if (yearNota != null) {
     if (yearNota === '년') {
@@ -57,7 +57,7 @@ export function generateFixHeaderTmpl(yearNota, year, monthIdx, mArr) {
   return html;
 }
 
-export function generateFixHeader(element, colWidth, daysArr) {
+export function generateFixHeader (element, colWidth, daysArr) {
   const olWidth = colWidth * 7;
   const padding = (element.offsetWidth - olWidth) / 2;
   const html = `
