@@ -94,6 +94,8 @@ export default {
 | markedDays | Array | no | | * currently not supported |
 | template | String | no | 'default' | Add 'fix-header' |
 | callbackFn | Function | no (but you have to)|console.log('You chose start and end dates.', DATA.START_DATE, DATA.END_DATE); | Event when you choose your start and end dates |
+| clock | Boolean | no | false | Add Time range |
+| noToday | Boolean | no | false | Not print 'TODAY' and off 'disable' dates |
 
 ```
   // don't change names of properties!!!

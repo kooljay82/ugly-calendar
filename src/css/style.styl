@@ -95,7 +95,7 @@
       background #222 !important
 
     .selected-dates
-      border-color red
+      border-color #222
 
     .selected-dates:after
       content ''
@@ -115,28 +115,12 @@
     .end-date:after
       border-top-left-radius 0
       border-bottom-left-radius 0
+    
+    .end-date.start-date:after, .start-date.end-date:after
+      border-radius 10px !important
 
   &.fix-header
-    padding-top 60px
-
-    .fix-header-days
-      position fixed
-      width 100%
-      top 0
-      left 0
-      background #fff
-      z-index 10
-      text-align center
-      border-bottom 1px #eee solid
-
-      ol
-        margin 0 auto
-        list-style none
-
-        li
-          display block
-          text-align center
-          float left
+    padding-top 0
 
     .container-table
       .table-header
@@ -151,16 +135,92 @@
       .table-body
         .today:before
           content 'TODAY'
-          font-size 10px
+          font-size 11px
           display block
           position absolute
           z-index 1
-          top calc(50% + 8px)
+          top calc(50% + 5px)
           left 0
           width inherit
           height inherit
           border-radius 0
           background none
-        
-        .selected-dates:after
-          background #a9a9a9
+
+.fix-header-days
+  position sticky
+  top 0
+  width auto
+  background #fff
+  z-index 10
+  text-align center
+  border-bottom 1px #eee solid
+
+  ol
+    margin 0 auto
+    padding 0
+    list-style none
+
+    li
+      display block
+      text-align center
+      float left
+
+.table-clock
+  width auto
+  background #fff
+  position sticky
+  top 0
+  margin-left -15px
+
+  .clock-hour, .clock-min
+    width 50%
+    height inherit
+    float left
+    overflow auto
+    position relative
+    text-align center
+    line-height 40px
+  
+  .clock-hour:before, .clock-min:before
+    display block
+    width auto
+    height 40px
+    color #fff
+    background #222
+    position sticky
+    top 0
+    left 0
+    z-index 1
+
+  .clock-hour:before
+    content 'Hours'
+    
+  .clock-min:before
+    content 'Minutes'
+
+  ol
+    margin 0 auto
+    padding 0
+    list-style none
+
+    li
+      width 100%
+      height 40px
+      font-size 18px
+      line-height 40px
+      display block
+      text-align center
+      position relative
+
+      &.select
+        color #fff;
+        background #222
+
+        &::after
+          display block
+          position absolute
+          top 0
+          right 40px
+
+div.scroll-freezing
+  overflow hidden !important

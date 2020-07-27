@@ -68,7 +68,7 @@
   color: #222;
   opacity: 0.1;
 }
-#ugly-container .table-body .today:after {
+#ugly-container .table-body .today:before {
   content: '';
   display: block;
   position: absolute;
@@ -95,8 +95,8 @@
   left: 0;
   width: inherit;
   height: inherit;
-  border-radius: 50%;
-  background: #222;
+  border-radius: 10px;
+  background: #222 !important;
 }
 #ugly-container .table-body .selected-dates {
   border-color: #f00;
@@ -119,6 +119,120 @@
 #ugly-container .table-body .end-date:after {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+}
+#ugly-container .table-body .end-date.start-date:after,
+#ugly-container .table-body .start-date.end-date:after {
+  border-radius: 10px !important;
+}
+#ugly-container.fix-header {
+  padding-top: 0;
+}
+#ugly-container.fix-header .container-table .table-header {
+  height: 40px;
+}
+#ugly-container.fix-header .container-table .table-header .header-title {
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 1em;
+  font-weight: normal;
+}
+#ugly-container.fix-header .container-table .table-body .today:before {
+  content: '오늘';
+  font-size: 11px;
+  display: block;
+  position: absolute;
+  z-index: 1;
+  top: calc(50% + 5px);
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border-radius: 0;
+  background: none;
+}
+.fix-header-days {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  width: auto;
+  background: #fff;
+  z-index: 10;
+  text-align: center;
+  border-bottom: 1px #eee solid;
+}
+.fix-header-days ol {
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+.fix-header-days ol li {
+  display: block;
+  text-align: center;
+  float: left;
+}
+.table-clock {
+  width: auto;
+  background: #fff;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  margin-left: -15px;
+}
+.table-clock .clock-hour,
+.table-clock .clock-min {
+  width: 50%;
+  height: inherit;
+  float: left;
+  overflow: auto;
+  position: relative;
+  text-align: center;
+  line-height: 40px;
+}
+.table-clock .clock-hour:before,
+.table-clock .clock-min:before {
+  display: block;
+  width: auto;
+  height: 40px;
+  color: #fff;
+  background: #e55;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+.table-clock .clock-hour:before {
+  content: '시';
+}
+.table-clock .clock-min:before {
+  content: '분';
+}
+.table-clock ol {
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+.table-clock ol li {
+  width: 100%;
+  height: 40px;
+  font-size: 18px;
+  line-height: 40px;
+  display: block;
+  text-align: center;
+  position: relative;
+}
+.table-clock ol li.select {
+  color: #fff;
+  background: #e55;
+}
+.table-clock ol li.select::after {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 40px;
+}
+div.scroll-freezing {
+  overflow: hidden !important;
 }
 
 
