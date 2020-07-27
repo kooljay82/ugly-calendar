@@ -2,3 +2,4 @@
 node_modules
 tests_output/
 selenium-server.log
+out/
